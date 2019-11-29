@@ -19,7 +19,7 @@ extern void LedTraseiraApaga(void);
  * main.c
  */
 
-//Velocidade do motor ainda precisa de otimizaÁ„o
+//Velocidade do motor ainda precisa de otimiza√ß√£o
 
 int main(void)
 {
@@ -32,66 +32,22 @@ int main(void)
 
        //CONTROLE BLUETOOTH
        P3SEL |= BIT3+BIT4;                       // P3.4,3.3 = USCI_A1 TXD/RXD
-       UCA0CTL1 |= UCSWRST;                      // **Estado da m·quina em reset**
+       UCA0CTL1 |= UCSWRST;                      // **Estado da m√°quina em reset**
        UCA0CTL1 |= UCSSEL_2;                     // SMCLK
        UCA0BR0 = 109;                              // 1MHz 115200 
        UCA0BR1 = 0;                              // 1MHz 115200
-       UCA0MCTL |= UCBRS_1 + UCBRF_0;            // ModulaÁ„o UCBRSx=1, UCBRFx=0
-       UCA0CTL1 &= ~UCSWRST;                     // **Inicializa USCI no estado da m·quina**
-  /* while(1)
-   {
-       if(UCA0RXBUF == 'F') //Frente
-                {
+       UCA0MCTL |= UCBRS_1 + UCBRF_0;            // Modula√ß√£o UCBRSx=1, UCBRFx=0
+       UCA0CTL1 &= ~UCSWRST;                     // **Inicializa USCI no estado da m√°quina**
 
 
-                       P1OUT |= BIT0;
-                       P4OUT &=~ BIT7;
-                       motor_init();
-                       motorFrente();
+    //CONTROLE UTILIZANDO INTERRUP√á√ÉO
+    UCA0IE |= UCRXIE;                         // Habilita interrup√ß√£o USCI_A1 RX
 
-                }
-        else if(UCA0RXBUF == 'B') // RÈ
-              {
-
-                    P1OUT &=~ BIT0;
-                    P4OUT |= BIT7;
-                    motor_init();
-                    motorRe();
-
-              }
-        else if(UCA0RXBUF == 'I'){//FrenteDireita
-            motor_init();
-            DirecaoFrenteDireita();
-        }else if(UCA0RXBUF == 'S'){ //Parar
-            motor_init();
-            motorParar();
-        }else if(UCA0RXBUF == 'G'){ //FrenteEsquerda
-            motor_init();
-            DirecaoFrenteEsquerda();
-        }else if(UCA0RXBUF == 'L'){ //Esquerda
-            motor_init();
-            motorEsquerda();
-        }else if(UCA0RXBUF == 'R'){ //Direita
-            motor_init();
-            motorDireita();
-        }else if(UCA0RXBUF == 'H'){//ReEsquerda
-            motor_init();
-            DirecaoReEsquerda();
-        }else if(UCA0RXBUF == 'J'){//ReDireita
-            motor_init();
-            DirecaoReDireita();
-        }
-
-   }*/
-
-    //CONTROLE UTILIZANDO INTERRUP«√O
-    UCA0IE |= UCRXIE;                         // Habilita interrupÁ„o USCI_A1 RX
-
-   __bis_SR_register(LPM0_bits + GIE);       // Entra com LPM0, InterrupÁ„o habilitada
+   __bis_SR_register(LPM0_bits + GIE);       // Entra com LPM0, Interrup√ß√£o habilitada
    __no_operation();                        // Para debugger
 }
 
- // Guarda o caractee RXed, confirma se TX buffer est· pronto primeiro
+ // Guarda o caractee RXed, confirma se TX buffer est√° pronto primeiro
 
   #pragma vector=USCI_A0_VECTOR
  __interrupt void USCI_A0_ISR(void)
@@ -101,7 +57,7 @@ int main(void)
          motor_init();
          motorFrente();
 
-     }else if(UCA0RXBUF == 'B'){ // RÈ
+     }else if(UCA0RXBUF == 'B'){ // R√©
          motor_init();
          motorRe();
 
